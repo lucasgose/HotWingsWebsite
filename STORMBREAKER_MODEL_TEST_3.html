@@ -213,7 +213,7 @@
 
     /*  INSPECT PANEL */
     #panel-inspect {
-      top: 25%;
+      top: 50%;
       right: 28px;
       transform: translateY(-50%);
       width: 260px;
@@ -298,6 +298,7 @@
   <!--  3D VIEWER  -->
   <x3d id="viewer">
     <scene id="scene">
+      <NavigationInfo type='"EXAMINE" "ANY"' explorationMode='all'></NavigationInfo>
       <inline id="model" url="stormbreaker.x3d"></inline>
     </scene>
   </x3d>
@@ -483,76 +484,95 @@
     'Prop':       { name: 'Propeller',       desc: 'Variable-pitch propeller optimised for both high-altitude cruise and low-speed water approach.' },
   };
 
-  // x3dom click handler — uses x3dom's native onclick on each Shape node
-  // because x3dom renders to a canvas; standard HTML click events can't
-  // reach individual x3d nodes through the canvas.
-  function attachInspectHandlers() {
-    const scene = document.getElementById('scene');
-    if (!scene) return;
+  // ── INSPECT: x3dom canvas picking ────────────────────────────
+  // x3dom renders to a <canvas>; individual Shape nodes are not
+  // reachable via normal DOM events. Instead we listen for clicks
+  // on the canvas and use x3dom's runtime.pickValue() to ray-cast
+  // into the scene and find which Shape was hit.
 
-    const shapes = scene.querySelectorAll('Shape');
-    shapes.forEach(shape => {
-      shape.addEventListener('click', (e) => {
-        if (!inspectMode) return;
-        e.stopPropagation();
-        handlePartClick(shape);
-      });
-    });
-  }
-
-  function handlePartClick(shapeNode) {
-    let found = null;
-    let node = shapeNode;
-    while (node) {
-      const def = node.getAttribute ? node.getAttribute('DEF') : null;
-      if (def) {
-        if (partInfo[def]) { found = def; break; }
-        const match = Object.keys(partInfo).find(k =>
-          def.toLowerCase().includes(k.toLowerCase())
-        );
-        if (match) { found = match; break; }
-      }
-      node = node.parentNode;
-      if (node && node.tagName && node.tagName.toLowerCase() === 'scene') break;
-    }
-
-    // Reset previous highlight
-    if (lastHighlighted) {
-      try {
-        lastHighlighted.setAttribute('diffuseColor', lastHighlighted._origColor || '0.8 0.8 0.8');
-      } catch(_) {}
-      lastHighlighted = null;
-    }
-
-    if (found) {
-      const info = partInfo[found];
-      document.getElementById('inspect-name').textContent = info.name;
-      document.getElementById('inspect-desc').textContent = info.desc;
-      document.getElementById('inspect-hint').textContent = 'Click another part or toggle Inspect off';
-    } else {
-      document.getElementById('inspect-name').textContent = 'Unlabelled Part';
-      document.getElementById('inspect-desc').textContent = 'Add a DEF name to this Shape in your .x3d file, then add it to the partInfo object in the script.';
-      document.getElementById('inspect-hint').textContent = 'Part not yet mapped';
-    }
-
-    // Highlight clicked shape
-    const mat = shapeNode.querySelector('Material');
-    if (mat) {
-      lastHighlighted = mat;
-      lastHighlighted._origColor = mat.getAttribute('diffuseColor') || '0.8 0.8 0.8';
-      mat.setAttribute('diffuseColor', '0.78 0.31 0.04');
-    }
-  }
-
-  // Attach handlers once x3dom has finished loading the inline model
   document.addEventListener('DOMContentLoaded', () => {
-    const inline = document.getElementById('model');
-    if (inline) {
-      inline.addEventListener('load', () => attachInspectHandlers());
-      // Fallback delay in case 'load' already fired before listener attached
-      setTimeout(attachInspectHandlers, 1500);
+    const x3dEl  = document.getElementById('viewer');
+    const canvas = x3dEl ? x3dEl.querySelector('canvas') : null;
+    if (!canvas) {
+      // x3dom may not have created the canvas yet — wait for it
+      const observer = new MutationObserver(() => {
+        const c = x3dEl.querySelector('canvas');
+        if (c) { observer.disconnect(); bindCanvas(c); }
+      });
+      if (x3dEl) observer.observe(x3dEl, { childList: true, subtree: true });
+    } else {
+      bindCanvas(canvas);
     }
   });
+
+  function bindCanvas(canvas) {
+    canvas.addEventListener('click', (e) => {
+      if (!inspectMode) return;
+
+      const x3dEl  = document.getElementById('viewer');
+      const runtime = x3dEl && x3dEl.runtime;
+      if (!runtime) return;
+
+      // Get click position relative to canvas
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      // Ask x3dom which shape is at this pixel
+      const shape = runtime.pickShape(x, y);
+
+      // Reset previous highlight
+      if (lastHighlighted) {
+        try {
+          lastHighlighted.setAttribute('diffuseColor', lastHighlighted._origColor || '0.8 0.8 0.8');
+        } catch(_) {}
+        lastHighlighted = null;
+      }
+
+      if (!shape) {
+        // Clicked empty space — clear panel
+        document.getElementById('inspect-name').textContent = '—';
+        document.getElementById('inspect-desc').textContent = 'Click a component on the model to see details about it here.';
+        document.getElementById('inspect-hint').textContent = 'Inspect mode active';
+        return;
+      }
+
+      // Walk up from the picked shape to find a DEF name
+      let found = null;
+      let node = shape;
+      while (node) {
+        const def = node.getAttribute ? node.getAttribute('DEF') : null;
+        if (def) {
+          if (partInfo[def]) { found = def; break; }
+          const match = Object.keys(partInfo).find(k =>
+            def.toLowerCase().includes(k.toLowerCase())
+          );
+          if (match) { found = match; break; }
+        }
+        node = node.parentNode;
+        if (!node || (node.tagName && node.tagName.toLowerCase() === 'x3d')) break;
+      }
+
+      if (found) {
+        const info = partInfo[found];
+        document.getElementById('inspect-name').textContent = info.name;
+        document.getElementById('inspect-desc').textContent = info.desc;
+        document.getElementById('inspect-hint').textContent = 'Click another part or toggle Inspect off';
+      } else {
+        document.getElementById('inspect-name').textContent = 'Unlabelled Part';
+        document.getElementById('inspect-desc').textContent = 'This shape has no DEF name yet. Add DEF="Name" to its <Shape> tag in the .x3d file, then add it to partInfo in the script.';
+        document.getElementById('inspect-hint').textContent = 'Part not yet mapped';
+      }
+
+      // Highlight: change the material colour of the picked shape
+      const mat = shape.querySelector ? shape.querySelector('Material') : null;
+      if (mat) {
+        lastHighlighted = mat;
+        lastHighlighted._origColor = mat.getAttribute('diffuseColor') || '0.8 0.8 0.8';
+        mat.setAttribute('diffuseColor', '0.78 0.31 0.04');
+      }
+    });
+  }
 </script>
 </body>
 </html>
