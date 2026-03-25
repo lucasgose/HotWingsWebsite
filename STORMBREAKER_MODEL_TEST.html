@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>STORMBREAKER — Amphibious Firefighting Aircraft</title>
+  <title>STORMBREAKER - Amphibious Firefighting Aircraft</title>
 
   <link rel="stylesheet" href="https://www.x3dom.org/release/x3dom.css">
   <script src="https://www.x3dom.org/release/x3dom.js"></script>
@@ -36,7 +36,7 @@
       color: var(--grey-700);
     }
 
-    /* ── 3D VIEWER ─────────────────────────────── */
+    /*  3D VIEWER */
     x3d {
       position: fixed;
       inset: 0;
@@ -45,7 +45,7 @@
       display: block;
     }
 
-    /* ── HEADER ────────────────────────────────── */
+    /*  HEADER */
     #header {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -115,7 +115,7 @@
       color: var(--white);
     }
 
-    /* ── PANELS ────────────────────────────────── */
+    /* PANELS */
     .panel {
       position: fixed;
       z-index: 90;
@@ -145,7 +145,7 @@
       color: var(--accent);
     }
 
-    /* ── SPECS PANEL ───────────────────────────── */
+    /*  SPECS PANEL */
     #panel-specs {
       bottom: 28px;
       left: 28px;
@@ -182,7 +182,7 @@
       margin-left: 2px;
     }
 
-    /* ── TEAM PANEL ────────────────────────────── */
+    /*  TEAM PANEL */
     #panel-team {
       bottom: 28px;
       right: 28px;
@@ -211,7 +211,7 @@
       margin-top: 1px;
     }
 
-    /* ── INSPECT PANEL ─────────────────────────── */
+    /*  INSPECT PANEL */
     #panel-inspect {
       top: 50%;
       right: 28px;
@@ -246,7 +246,7 @@
       margin-top: 10px;
     }
 
-    /* ── CONTROLS HINT ─────────────────────────── */
+    /*  CONTROLS HINT */
     #controls-hint {
       position: fixed;
       bottom: 28px;
@@ -281,7 +281,7 @@
       border: 1px solid var(--grey-300);
     }
 
-    /* ── DIVIDER LINE ──────────────────────────── */
+    /*  DIVIDER LINE */
     .accent-rule {
       width: 28px;
       height: 2px;
@@ -289,23 +289,23 @@
       margin: 6px 0 10px;
     }
 
-    /* ── CLICK-TO-INSPECT CURSOR ───────────────── */
+    /*  CLICK-TO-INSPECT CURSOR  */
     x3d canvas { cursor: crosshair; }
   </style>
 </head>
 <body>
 
-  <!-- ── 3D VIEWER ── -->
+  <!--  3D VIEWER  -->
   <x3d id="viewer">
     <scene id="scene">
       <inline id="model" url="stormbreaker.x3d"></inline>
     </scene>
   </x3d>
 
-  <!-- ── HEADER ── -->
+  <!--  HEADER  -->
   <header id="header">
     <div id="header-left">
-      <div class="title-label">Senior Design Project · Hot Wings</div>
+      <div class="title-label">Senior Design Project - Hot Wings</div>
       <div class="title-main">STORMBREAKER</div>
       <div class="title-sub">Amphibious Firefighting Aircraft</div>
     </div>
@@ -316,84 +316,108 @@
     </div>
   </header>
 
-  <!-- ── SPECS PANEL ── -->
+  <!--  SPECS PANEL  -->
   <div class="panel" id="panel-specs">
     <div class="panel-header">
       <div class="panel-title">Aircraft Specifications</div>
     </div>
     <div class="spec-grid">
-      <!-- ✏️ EDIT THESE VALUES with your real numbers -->
+      <!-- EDIT THESE VALUES with your real numbers -->
       <div class="spec-item">
         <div class="spec-label">Wingspan</div>
-        <div class="spec-value">— <span class="spec-unit">ft</span></div>
+        <div class="spec-value">56 <span class="spec-unit">ft</span></div>
       </div>
       <div class="spec-item">
         <div class="spec-label">Length</div>
-        <div class="spec-value">— <span class="spec-unit">ft</span></div>
+        <div class="spec-value">60 <span class="spec-unit">ft</span></div>
       </div>
       <div class="spec-item">
         <div class="spec-label">Max Speed</div>
-        <div class="spec-value">— <span class="spec-unit">kts</span></div>
+        <div class="spec-value">267 <span class="spec-unit">kts</span></div>
       </div>
       <div class="spec-item">
         <div class="spec-label">Range</div>
-        <div class="spec-value">— <span class="spec-unit">nm</span></div>
+        <div class="spec-value">1,200 <span class="spec-unit">nm</span></div>
       </div>
       <div class="spec-item">
         <div class="spec-label">MTOW</div>
-        <div class="spec-value">— <span class="spec-unit">lbs</span></div>
+        <div class="spec-value">24,000 <span class="spec-unit">lbs</span></div>
       </div>
       <div class="spec-item">
         <div class="spec-label">Water Cap.</div>
-        <div class="spec-value">— <span class="spec-unit">gal</span></div>
+        <div class="spec-value">800 <span class="spec-unit">gal</span></div>
       </div>
       <div class="spec-item">
         <div class="spec-label">Cruise Alt.</div>
-        <div class="spec-value">— <span class="spec-unit">ft</span></div>
+        <div class="spec-value">8000 <span class="spec-unit">ft</span></div>
       </div>
       <div class="spec-item">
         <div class="spec-label">Engines</div>
-        <div class="spec-value" style="font-size:13px; padding-top:2px;">—</div>
+        <div class="spec-value" style="font-size:13px; padding-top:2px;">2</div>
       </div>
     </div>
   </div>
 
-  <!-- ── TEAM PANEL ── -->
+  <!-- TEAM PANEL -->
   <div class="panel" id="panel-team" style="bottom:28px; right:28px; width:240px;">
     <div class="panel-header">
       <div class="panel-title">Design Team</div>
     </div>
     <div class="team-list">
-      <!-- ✏️ REPLACE with your actual team members & roles -->
+      <!-- REPLACE with your actual team members & roles -->
       <div class="team-member">
-        <div class="member-name">Your Name</div>
-        <div class="member-role">Aerodynamics Lead</div>
+        <div class="member-name">Quinn McIver</div>
+        <div class="member-role">Team Lead</div>
       </div>
       <div class="team-member">
-        <div class="member-name">Team Member</div>
-        <div class="member-role">Structures</div>
-      </div>
-      <div class="team-member">
-        <div class="member-name">Team Member</div>
+        <div class="member-name">David Reddinger</div>
         <div class="member-role">Propulsion</div>
       </div>
       <div class="team-member">
-        <div class="member-name">Team Member</div>
-        <div class="member-role">Systems</div>
+        <div class="member-name">Ehtan Hebert</div>
+        <div class="member-role">Aircraft Systems</div>
+      </div>
+      <div class="team-member">
+        <div class="member-name">Jacob Brown</div>
+        <div class="member-role">Simulation</div>
+      </div>
+      <div class="team-member">
+        <div class="member-name">Jenna Hill</div>
+        <div class="member-role">Stability & Controls</div>
+      </div>
+      <div class="team-member">
+        <div class="member-name">JP Kintz</div>
+        <div class="member-role">Market Analyst</div>
+      </div>
+      <div class="team-member">
+        <div class="member-name">Kayla Nocerito</div>
+        <div class="member-role">Systems of Systems</div>
+      </div>
+      <div class="team-member">
+        <div class="member-name">Lucas Gose</div>
+        <div class="member-role">Aerodynamics</div>
+      </div>
+      <div class="team-member">
+        <div class="member-name">Nora McManus</div>
+        <div class="member-role">Structures</div>
+      </div>
+      <div class="team-member">
+        <div class="member-name">Olivia Trotter</div>
+        <div class="member-role">Weight & Balance</div>
       </div>
       <div class="team-member" style="border-bottom:none; padding-top:10px;">
-        <div class="member-role" style="font-size:10px; color:var(--grey-300);">Advisor: Prof. Name · University Name · 2025</div>
+        <div class="member-role" style="font-size:10px; color:var(--grey-300);">AOE - Virginia Tech - 2026</div>
       </div>
     </div>
   </div>
 
-  <!-- ── INSPECT PANEL ── -->
+  <!-- INSPECT PANEL -->
   <div class="panel hidden" id="panel-inspect">
     <div class="panel-header">
       <div class="panel-title">Component Inspector</div>
     </div>
     <div class="inspect-body">
-      <div class="inspect-part-name" id="inspect-name">—</div>
+      <div class="inspect-part-name" id="inspect-name">-</div>
       <div class="accent-rule"></div>
       <div class="inspect-description" id="inspect-desc">
         Click a component on the model to see details about it here.
@@ -402,7 +426,7 @@
     </div>
   </div>
 
-  <!-- ── CONTROLS HINT ── -->
+  <!--  CONTROLS HINT  -->
   <div id="controls-hint">
     <div class="ctrl-item"><span class="ctrl-key">Drag</span> Rotate</div>
     <div class="ctrl-item"><span class="ctrl-key">Scroll</span> Zoom</div>
@@ -411,7 +435,7 @@
   </div>
 
 <script>
-  // ── PANEL TOGGLE ──────────────────────────────────────────────
+  //  PANEL TOGGLE -
   function togglePanel(name) {
     const specsPanel = document.getElementById('panel-specs');
     const teamPanel  = document.getElementById('panel-team');
@@ -429,7 +453,7 @@
     }
   }
 
-  // ── INSPECT MODE ──────────────────────────────────────────────
+  //  INSPECT MODE --
   let inspectMode = false;
   let lastHighlighted = null;
 
@@ -441,15 +465,15 @@
     panel.classList.toggle('hidden', !inspectMode);
   }
 
-  // ─────────────────────────────────────────────────────────────
+  // -----
   // COMPONENT INFO DATABASE
-  // ✏️ INSTRUCTIONS:
+  //  INSTRUCTIONS:
   //   1. Open your stormbreaker.x3d file in a text editor
   //   2. Look for DEF="..." attributes on Shape or Group nodes
   //   3. Add each part name as a key below with a description
-  // ─────────────────────────────────────────────────────────────
+  // -----
   const partInfo = {
-    // Examples — replace with your actual part names from the x3d file:
+    // Examples - replace with your actual part names from the x3d file:
     'Wing':       { name: 'Main Wing',       desc: 'Box-wing designed for low-speed scooping operations and cruise efficiency.' },
     'Fuselage':   { name: 'Fuselage',        desc: 'Primary structural body housing the crew compartment, avionics bay, and primary water retardant tank.' },
     'VTail':      { name: 'Vertical Tail',   desc: 'Single vertical stabilizer with rudder for yaw control and directional stability.' },
