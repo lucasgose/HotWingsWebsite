@@ -3,7 +3,7 @@
 <X3D version="3.0" profile="Immersive" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xsd:noNamespaceSchemaLocation="http://www.web3d.org/specifications/x3d-3.0.xsd">
 	<head>
 		<meta name="filename" content="stormbreaker.x3d" />
-		<meta name="created" content="2026-04-28 23:20:29" />
+		<meta name="created" content="2026-04-28 23:25:49" />
 		<meta name="generator" content="Blender 5.0.1" />
 		<meta name="translator" content="Web3D X3D/VRML2 format v2.5.1" />
 	</head>
@@ -167,7 +167,17 @@
 					<Group DEF="group_ME_Float">
 						<Shape>
 							<Appearance>
-								<Material USE="MA_Images" />
+								<ImageTexture DEF="IM_Orange-Color_png"
+								              url='"Orange-Color.png"'
+								              />
+								<Material DEF="MA_Images"
+								          diffuseColor="0.791 0.195 0.020"
+								          specularColor="0.401 0.401 0.401"
+								          emissiveColor="0.000 0.000 0.000"
+								          ambientIntensity="0.000"
+								          shininess="0.500"
+								          transparency="0.000"
+								          />
 							</Appearance>
 							<IndexedTriangleSet solid="false"
 							                    normalPerVertex="true"
@@ -196,14 +206,7 @@
 								<ImageTexture DEF="IM_Window_png"
 								              url='"Window.png"'
 								              />
-								<Material DEF="MA_Windows"
-								          diffuseColor="0.088 0.391 0.800"
-								          specularColor="0.401 0.401 0.401"
-								          emissiveColor="0.000 0.000 0.000"
-								          ambientIntensity="0.000"
-								          shininess="0.500"
-								          transparency="0.000"
-								          />
+								<Material USE="MA_Windows" />
 							</Appearance>
 							<IndexedTriangleSet solid="false"
 							                    normalPerVertex="true"
@@ -595,7 +598,17 @@
 					<Group DEF="group_ME_Number_1_-_Pylon">
 						<Shape>
 							<Appearance>
-								<Material USE="MA_Images" />
+								<ImageTexture DEF="IM_Blue-Color_png"
+								              url='"Blue-Color.png"'
+								              />
+								<Material DEF="MA_Images_001"
+								          diffuseColor="0.791 0.195 0.020"
+								          specularColor="0.401 0.401 0.401"
+								          emissiveColor="0.000 0.000 0.000"
+								          ambientIntensity="0.000"
+								          shininess="0.500"
+								          transparency="0.000"
+								          />
 							</Appearance>
 							<IndexedTriangleSet solid="false"
 							                    normalPerVertex="true"
